@@ -1,0 +1,38 @@
+---
+- name: Verify required template variables are defined
+  ansible.builtin.assert:
+    that:
+      - item in vars
+      - vars[item] != None
+    fail_msg: "Variable {{ item }} does not exists or is undefined"
+    success_msg: "Variable {{ item }} exists and is defined"
+  loop:
+    - template_acme_email
+    - template_age_public_key
+    - template_cloudflare_account_tag
+    - template_cloudflare_domain
+    - template_cloudflare_token
+    - template_cloudflare_tunnel_id
+    - template_cloudflare_tunnel_secret
+    - template_cluster_cidr
+    - template_flux_github_webhook_token
+    - template_github_repository_name
+    - template_github_repository_branch
+    - template_github_username
+    - template_external_ingress_addr
+    - template_internal_ingress_addr
+    - template_ipv6_enabled
+    - template_k8s_gateway_addr
+    - template_kube_vip_addr
+    - template_node_cidr
+    - template_service_cidr
+    - template_timezone
+
+- name: Verify template node names are valid
+  ansible.builtin.assert:
+    that: item.name is match('^[a-z0-9-]+$')
+    success_msg: Node name {{ item.name }} is valid
+    fail_msg: Node name {{ item.name }} is not valid
+  loop: "{{ template_nodes.master + template_nodes.worker | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"

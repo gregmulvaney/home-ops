@@ -1,0 +1,42 @@
+---
+- name: Query Github username
+  ansible.builtin.uri:
+    url: https://api.github.com/users/{{ template_github_username }}
+    timeout: 5
+    return_content: true
+    body_format: json
+  register: result
+
+- name: Check if username exists
+  ansible.builtin.assert:
+    that: result.json.login == template_github_username
+    success_msg: Github user {{ template_github_username }} exists
+    fail_msg: Github user {{ template_github_username }} does not exist
+
+- name: Query Github repo
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/{{ template_github_username }}/{{ template_github_repository_name }}
+    timeout: 5
+    return_content: true
+    body_format: json
+  register: result
+
+- name: Check if repo exists
+  ansible.builtin.assert:
+    that: result.json.full_name == template_github_username + '/' + template_github_repository_name
+    success_msg: Github repo {{ template_github_username }}/{{ template_github_repository_name }} exists
+    fail_msg: Github repo {{ template_github_username }}/{{ template_github_repository_name }} does not exist
+
+- name: Query Github repo branch
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/{{ template_github_username }}/{{ template_github_repository_name }}/branches/{{ template_github_repository_branch | default('main', true) }}
+    timeout: 5
+    return_content: true
+    body_format: json
+  register: result
+
+- name: Check if repo branch exists
+  ansible.builtin.assert:
+    that: result.json.name == template_github_repository_branch | default('main', true)
+    success_msg: Github repo branch {{ template_github_repository_branch | default('main', true) }} exists
+    fail_msg: Github repo branch {{ template_github_repository_branch | default('main', true) }} does not exist

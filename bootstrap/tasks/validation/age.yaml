@@ -1,0 +1,21 @@
+---
+- name: Query age key file
+  ansible.builtin.stat:
+    path: "{{ repository_path }}/age.key"
+  register: result
+
+- name: Check if age key file exists
+  ansible.builtin.assert:
+    that: result.stat.exists
+    success_msg: Age key file found
+    fail_msg: Failed to locate age key file
+
+- name: Query age key file contents
+  ansible.builtin.set_fact:
+    age_contents: "{{ lookup('file', repository_path + '/age.key') }}"
+
+- name: Check if config public key matches key file
+  ansible.builtin.assert:
+    that: template_age_public_key in age_contents
+    success_msg: Age public keys match
+    fail_msg: Age public keys don't match

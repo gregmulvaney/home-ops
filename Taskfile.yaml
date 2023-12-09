@@ -1,0 +1,35 @@
+---
+version: "3"
+
+vars:
+  PYTHON_BIN: python3
+  BOOTSTRAP_DIR: "{{.ROOT_DIR}}/bootstrap"
+  ANSIBLE_DIR: "{{.ROOT_DIR}}/ansible"
+  K8S_DIR: "{{.ROOT_DIR}}/kubernetes"
+
+env:
+  KUBECONFIG: "{{.K8S_DIR}}/kubeconfig"
+  SOPS_AGE_KEY_FILE: "{{.BOOTSTRAP_DIR}}/age.key"
+  VIRTUAL_ENV: "{{.ROOT_DIR}}/.venv"
+  PATH: "{{.VIRTUAL_ENV}}/bin:$PATH"
+  ANSIBLE_COLLECTIONS_PATH: "{{.VIRTUAL_ENV}}/galaxy"
+  ANSIBLE_ROLES_PATH: "{{.ANSIBLE_COLLECTIONS_PATH}}/roles"
+  ANSIBLE_VARS_ENABLED: "host_group_vars,community.sops.sops"
+
+tasks:
+  default: task -l
+
+  deps:
+    desc: Create Python virtual environment and install Ansible dependencies
+    cmds:
+      - "{{.PYTHON_BIN}} -m venv {{.VIRTUAL_ENV}}"
+      - .venv/bin/python3 -m pip install --upgrade pip setuptools wheel
+      - .venv/bin/python3 -m pip install --upgrade --requirement "{{.ROOT_DIR}}/requirements.txt"
+      - .venv/bin/ansible-galaxy install --role-file "{{.ROOT_DIR}}/requirements.yaml" --force
+
+  configure:
+    desc: Configure templates from variables
+    dir: "{{.BOOTSTRAP_DIR}}"
+    cmd: ansible-playbook configure.yaml
+    env:
+      ANSIBLE_DISPLAY_SKIPPED_HOST: false
