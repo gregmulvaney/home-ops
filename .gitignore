@@ -1,4 +1,7 @@
 .idea
 .vscode
 .venv
-age.key
+.decrypted~*
+*.agekey
+*.pub
+*.key
