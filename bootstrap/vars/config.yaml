@@ -5,7 +5,7 @@ template_github_repository_name: home-ops
 # Github repository branch
 template_github_repository_branch: main
 # Age public key
-template_age_public_key: age12wagx6h54xxs4awkmqpucuy3wznj26ay8enp2ct39h4pfuzxydxsslenzf
+template_age_public_key: age1kt8r69cfcuqsdrxe9se5rl55a4khccgp7eeawzhj5rn5qmussuns4ektce
 # Set timezone (e.g. America/Chicago)
 template_timezone: America/Chicago
 # Email for certificate
@@ -51,7 +51,7 @@ template_nodes:
   # Use only 1, 3 or more odd master nodes, recommended is 3
   master:
     - name: k3s-master
-      address: 192.168.1.43
+      address: 192.168.1.244
       username: root
       password: sashimi
   worker:

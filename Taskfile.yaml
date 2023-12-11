@@ -16,6 +16,9 @@ env:
   ANSIBLE_ROLES_PATH: "{{.ANSIBLE_COLLECTIONS_PATH}}/roles"
   ANSIBLE_VARS_ENABLED: "host_group_vars,community.sops.sops"
 
+includes:
+  brew: .taskfiles/Brew/Taskfile.yaml
+
 tasks:
   default: task -l
 
@@ -26,6 +29,11 @@ tasks:
       - .venv/bin/python3 -m pip install --upgrade pip setuptools wheel
       - .venv/bin/python3 -m pip install --upgrade --requirement "{{.ROOT_DIR}}/requirements.txt"
       - .venv/bin/ansible-galaxy install --role-file "{{.ROOT_DIR}}/requirements.yaml" --force
+
+  age:
+    desc: Generate age file
+    dir: "{{.ROOT_DIR}}"
+    cmd: age-keygen -o age.key
 
   configure:
     desc: Configure templates from variables
