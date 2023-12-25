@@ -1,0 +1,10 @@
+---
+version: 3
+
+includes:
+  pm: Proxmox/Taskfile.yaml
+
+tasks:
+  prepare:
+    dir: "{{.TERRAFORM_DIR}}/proxmox"
+    cmd: cp terraform.tfvars.example terraform.tfvars

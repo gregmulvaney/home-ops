@@ -1,0 +1,12 @@
+---
+version: 3
+
+tasks:
+  deps:
+    cmd: "brew install {{.DEPS}}"
+    vars:
+      DEPS: >-
+        k9s
+        terraform
+        sops
+        kubernetes-cli

@@ -1,0 +1,12 @@
+---
+version: 3
+
+vars:
+  TERRAFORM_DIR: "{{.ROOT_DIR}}/infrastructure/terraform"
+
+includes:
+  tf: ".taskfiles/Terraform/Taskfile.yaml"
+
+tasks:
+  default:
+    cmd: "task -l"

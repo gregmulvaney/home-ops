@@ -1,0 +1,19 @@
+---
+version: "3"
+
+tasks:
+  init:
+    dir: "{{.TERRAFORM_DIR}}/proxmox"
+    cmd: terraform init
+
+  plan:
+    dir: "{{.TERRAFORM_DIR}}/proxmox"
+    cmd: terraform plan
+
+  apply:
+    dir: "{{.TERRAFORM_DIR}}/proxmox"
+    cmd: terraform apply
+
+  destroy:
+    dir: "{{.TERRAFORM_DIR}}/proxmox"
+    cmd: terraform destroy
