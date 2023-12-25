@@ -58,6 +58,33 @@ resource "proxmox_lxc" "k3s_masters" {
   }
 }
 
+# Disable app armor on LXCs to allow virtualization
+resource "null_resource" "disable_app_armor" {
+  depends_on = [proxmox_lxc.k3s_masters]
+  for_each   = var.master_nodes
+
+  connection {
+    type     = "ssh"
+    host     = var.pm_api_url
+    user     = var.pm_user
+    password = var.pm_pass
+  }
+
+  provisioner "file" {
+    destination = "/root/app_armor_${each.key}.sh"
+    content = templatefile("./app_armor.sh", {
+      "config_file" = "/etc/${proxmox_lxc.k3s_workers[each.key].id}.conf"
+    })
+  }
+
+  provisioner "remote-exec" {
+
+    inline = [
+      "sh /root/app_armor_${each.key}.sh"
+    ]
+  }
+}
+
 resource "proxmox_lxc" "k3s_workers" {
   depends_on      = [proxmox_lxc.k3s_masters]
   for_each        = var.worker_nodes
