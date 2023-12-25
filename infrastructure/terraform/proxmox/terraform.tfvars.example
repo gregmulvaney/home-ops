@@ -1,0 +1,55 @@
+# IP address for your proxmox server
+pm_api_url = "192.168.1.69"
+# Proxmox root username
+# Root permissions are required to make priviledged containers
+pm_user = "root"
+# Password for your user
+pm_pass = "password"
+# Name of your target node
+target_node = "pve"
+# LXC OS template for the containers
+template = "local:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst"
+# Your networks gateway address
+gateway = "192.168.1.1"
+# Path to the public key file you want to use to provision the containers
+ssh_public_keys = "~/.ssh/id_ed25519.pub"
+# Path to your private key file. Used for SSHing into the containers
+ssh_private_key = "~/.ssh/id_ed25519"
+
+# Master and worker nodes
+# Key is the hostname of the container
+# cores, memory, ip, disk, and storage are all required
+# IP must be static as the Proxmox API doe not support returning DHCP addresses
+master_nodes = {
+  "k3s-master" = {
+    cores   = "8"
+    memory  = "8192"
+    ip      = "192.168.1.60"
+    disk    = "40G"
+    storage = "local-lvm"
+  }
+}
+
+worker_nodes = {
+  "k3s-worker-1" = {
+    cores   = "8"
+    memory  = "8192"
+    ip      = "192.168.1.61"
+    disk    = "40G"
+    storage = "local-lvm"
+  }
+  "k3s-worker-2" = {
+    cores   = "8"
+    memory  = "8192"
+    ip      = "192.168.1.62"
+    disk    = "40G"
+    storage = "local-lvm"
+  }
+  "k3s-worker-3" = {
+    cores   = "8"
+    memory  = "8192"
+    ip      = "192.168.1.63"
+    disk    = "40G"
+    storage = "local-lvm"
+  }
+}
