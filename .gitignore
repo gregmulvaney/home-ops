@@ -16,4 +16,9 @@
 .terraformrc
 terraform.rc
 
+# Ignore AGE key
+*.key
+
+vars.yaml
+
 .DS_Store

@@ -8,5 +8,9 @@ includes:
   tf: ".taskfiles/Terraform/Taskfile.yaml"
 
 tasks:
+  age:
+    dir: "{{.ROOT_DIR}}"
+    cmd: age-keygen -o age.key
+
   default:
     cmd: "task -l"

@@ -53,7 +53,6 @@ resource "proxmox_lxc" "k3s_masters" {
     inline = [
       "apt update",
       "apt upgrade -y",
-      "apt install -y git vim curl"
     ]
   }
 }
@@ -72,8 +71,9 @@ resource "null_resource" "disable_app_armor" {
 
   provisioner "file" {
     destination = "/root/app_armor_${each.key}.sh"
-    content = templatefile("./app_armor.sh", {
+    content = templatefile("./scripts/app_armor.sh", {
       "config_file" = "/etc/${proxmox_lxc.k3s_workers[each.key].id}.conf"
+      "key"         = each.key
     })
   }
 
@@ -125,7 +125,6 @@ resource "proxmox_lxc" "k3s_workers" {
     inline = [
       "apt update",
       "apt upgrade -y",
-      "apt install -y git vim curl"
     ]
   }
 }
@@ -145,7 +144,7 @@ resource "null_resource" "disable_app_armor" {
 
   provisioner "file" {
     destination = "/root/app_armor_${each.key}.sh"
-    content = templatefile("./app_armor.sh", {
+    content = templatefile("./scripts/app_armor.sh", {
       "config_file" = "/etc/${proxmox_lxc.k3s_workers[each.key].id}.conf"
     })
   }
