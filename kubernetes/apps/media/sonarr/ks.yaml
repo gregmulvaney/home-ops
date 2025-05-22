@@ -5,3 +5,16 @@ kind: Kustomization
 metadata:
   name: &app sonarr
   namespace: &namespace media
+spec:
+  force:  false
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: false
