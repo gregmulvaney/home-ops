@@ -6,12 +6,13 @@ metadata:
   name: &app sonarr
   namespace: &namespace media
 spec:
-  force:  false
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
   prune: true
+  path: ./kubernetes/apps/media/sonarr/app
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
