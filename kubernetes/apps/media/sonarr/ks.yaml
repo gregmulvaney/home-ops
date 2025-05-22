@@ -12,6 +12,9 @@ spec:
   interval: 1h
   prune: true
   path: ./kubernetes/apps/media/sonarr/app
+  postBuild:
+    substitute:
+      APP: *app
   retryInterval: 2m
   sourceRef:
     kind: GitRepository
