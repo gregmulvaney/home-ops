@@ -20,8 +20,6 @@ spec:
   values:
     controllers:
       sonarr:
-        annotations:
-          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
