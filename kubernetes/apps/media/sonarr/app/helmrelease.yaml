@@ -27,8 +27,6 @@ spec:
             env:
               SONARR__APP__INSTANCENAME: Sonarr
               SONARR__APP__THEME: dark
-              SONARR__AUTH__METHOD: External
-              SONARR__LOG__DBENABLED: "False"
               SONARR__LOG__LEVEL: info
               SONARR__SERVER__PORT: &port 80
               SONARR__UPDATE__BRANCH: develop
@@ -63,14 +61,3 @@ spec:
         ports:
           http:
             port: *port
-    route:
-      app:
-        hostnames: ["{{ .Release.Name }}.ripgreg.com"]
-        parentRefs:
-          - name: internal
-            namespace: kube-system
-            sectionName: https
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
