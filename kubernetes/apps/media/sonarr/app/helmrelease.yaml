@@ -22,6 +22,7 @@ spec:
       namespace: network
   values:
     controllers:
+
       sonarr:
         strategy: RollingUpdate
         containers:
