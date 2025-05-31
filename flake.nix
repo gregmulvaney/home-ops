@@ -20,6 +20,9 @@
           buildInputs = with pkgs; [
             k9s
             fluxcd
+            go-task
+            talosctl
+            kustomize
           ];
         };
       }
