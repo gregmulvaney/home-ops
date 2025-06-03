@@ -27,6 +27,9 @@ tasks:
 
   default: task --list
 
+  getenv:
+    cmd: echo "SOPS key is {{.SOPS_AGE_KEY_FILE}}"
+
   reconcile:
     desc: Force Flux to pull in changes from your Git repository
     cmd: flux --namespace flux-system reconcile kustomization flux-system --with-source
